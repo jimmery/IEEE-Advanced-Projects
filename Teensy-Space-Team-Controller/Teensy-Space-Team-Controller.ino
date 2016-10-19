@@ -10,6 +10,10 @@ uint8_t buf[BUFFER_SIZE];
 
 uint32_t turn = 0;
 
+uint8_t r = 0; 
+uint8_t y = 0;
+uint8_t g = 0;
+
 void setup() {
   // setup the pins as OUTPUT. 
   pinMode(LED_PIN, OUTPUT);
@@ -52,18 +56,18 @@ uint8_t random_color()
 // into the color led (color is a character)
 void writeLED(uint8_t color, uint8_t logic_level)
 {
-    switch(color)
-    {
-      case 'R': 
-        digitalWrite(RED_LED, logic_level);
-        break;
-      case 'Y': 
-        digitalWrite(YEL_LED, logic_level);
-        break;
-      case 'G':
-        digitalWrite(GRN_LED, logic_level); 
-        break;
-    }
+  switch(color)
+  {
+    case 'R': 
+      digitalWrite(RED_LED, logic_level);
+      break;
+    case 'Y': 
+      digitalWrite(YEL_LED, logic_level);
+      break;
+    case 'G':
+      digitalWrite(GRN_LED, logic_level); 
+      break;
+  }
 }
 
 void loop() 
@@ -81,73 +85,45 @@ void loop()
 
   Serial1.write(buf, BUFFER_SIZE);
 
-  while ( !Serial1.available() )
+  while ( true )
   {
-    // wait for it. 
-  }
-  uint8_t turn_complete = Serial1.read();
-
-  switch(turn_complete) {
-    case 0: 
-      turn = 0;
-      digitalWrite(RED_LED, HIGH);
-      delay(2500);
-      digitalWrite(RED_LED, LOW);
-      delay(250);
-      break;
-    case 1:
-      turn++;
-      digitalWrite(GRN_LED, HIGH);
-      delay(2500);
-      digitalWrite(GRN_LED, LOW);
-      delay(250);
-      break;
-  }
-  
-  /*char LED;
-  
-  for(int count = 0; count < buf.length();)
-  {
-    if (Serial1.available() > 0)
+    if ( Serial1.available() )
     {
-      LED = Serial1.read();
-      Serial.print(LED);
-      if(LED == 'G')
+      // wait for presses. 
+      uint8_t rec_val = Serial1.read();
+
+      switch(rec_val) 
       {
-        digitalWrite(10, HIGH);
-        delay(500);
-        digitalWrite(10,LOW);
-        delay(200);
+        case 0: // game over. 
+          turn = 0;
+          digitalWrite(RED_LED, HIGH);
+          delay(2500);
+          digitalWrite(RED_LED, LOW);
+          delay(250);
+          return;
+        case 1: // game continue. 
+          turn++;
+          digitalWrite(GRN_LED, HIGH);
+          delay(2500);
+          digitalWrite(GRN_LED, LOW);
+          delay(250);
+          return;
+        case 'R':
+          r = !r;
+          writeLED('R', r);
+          break;
+        case 'Y':
+          y = !y;
+          writeLED('Y', y);
+          break;
+        case 'G':
+          g = !g;
+          writeLED('G', g);
+          break;
+        default: 
+          // IDK. 
+          break;
       }
-      if(LED == 'Y')
-      {
-        digitalWrite(11, HIGH);
-        delay(500);
-        digitalWrite(11,LOW);
-        delay(200);
-      }
-      if(LED == 'R')
-      {
-        digitalWrite(12, HIGH);
-        delay(500);
-        digitalWrite(12,LOW);
-        delay(200);
-      }
-            
-  
-      if (buf[count] != LED){
-        digitalWrite(12, HIGH);
-        delay(3000);
-        digitalWrite(12, LOW);
-        delay(250);
-        buf = "";
-        return;
-      }
-      count++;
     }
   }
-  digitalWrite(10, HIGH);
-  delay(3000);
-  digitalWrite(10, LOW);
-  delay(250);*/
 }

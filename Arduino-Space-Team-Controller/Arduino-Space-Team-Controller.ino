@@ -7,7 +7,7 @@
 #define GRN_BUT 7
 
 // comment this line, if you want functionality of having the LED on during a button press. 
-//#define FALLINGREAD
+#define FALLINGREAD
 
 //having an array of 3 values helps with debouncing
 //'memory aspect'
@@ -65,8 +65,8 @@ void updatevalues(int button, bool arr[3],  char letter){
   if ( !arr[0] && arr[1] && arr[2] ) {
     buf[cur_buf_len] = letter; //adds the letter to the array
     cur_buf_len++; //re-sets end of buffer. 
-    //Serial.write(letter);
-    //mySerial.write(letter);
+    Serial.write(letter);
+    mySerial.write(letter);
   }
   
 #ifdef FALLINGREAD //used this for checkpoint 2. 
