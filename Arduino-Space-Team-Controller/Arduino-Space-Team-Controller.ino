@@ -65,8 +65,8 @@ void updatevalues(int button, bool arr[3],  char letter){
   if ( !arr[0] && arr[1] && arr[2] ) {
     buf[cur_buf_len] = letter; //adds the letter to the array
     cur_buf_len++; //re-sets end of buffer. 
-    Serial.write(letter);
-    mySerial.write(letter);
+    //Serial.write(letter);
+    //mySerial.write(letter);
   }
   
 #ifdef FALLINGREAD //used this for checkpoint 2. 
