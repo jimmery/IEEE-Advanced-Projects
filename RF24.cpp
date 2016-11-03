@@ -982,7 +982,7 @@ void RF24::setPALevel(uint8_t level)
 
   // read the RF_SETUP register into the setup variable and mask out the power level bits.
     
-  setup = read_register(RF_SETUP) & (0xF9);
+  setup = read_register(RF_SETUP) & (0xF9); //0's out all bits except for 2 and 1
   // possible values for level are 
   // RF24_PA_MIN, RF24_PA_LOW, RF24_PA_MED, and RF24_PA_HIGH
   // remember to write to the RF_SETUP register when you are done
