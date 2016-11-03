@@ -15,6 +15,7 @@
 RF24 controller(23, 18);
 void setup() {
   Serial.begin(115200);
+  controller.begin();
   printf_begin();
   //RF24 controller(23, 18);
   // put your setup code here, to run once:
