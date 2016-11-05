@@ -1,6 +1,6 @@
 #include <printf.h>
 #include <RF24.h>
-//#include <nrf24l01p.h>
+#include <nrf24L01.h>
 
 //void radio_init() {
 //  setPALevel(RF24_PA_LOW);
@@ -13,13 +13,16 @@
 //}
 
 RF24 controller(23, 18);
+
 void setup() {
   Serial.begin(115200);
   controller.begin();
   printf_begin();
-  //RF24 controller(23, 18);
   // put your setup code here, to run once:
-  controller.setPALevel(RF24_PA_LOW);
+//  controller.write_register(RF_SETUP, 0b00000110);
+  delay(1000);
+  Serial.println("The delay has finished.");
+  controller.setPALevel(RF24_PA_HIGH);
   controller.printDetails();
 
 }
