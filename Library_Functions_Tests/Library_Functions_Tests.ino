@@ -12,6 +12,10 @@
 
 RF24* controller;
 
+typedef struct {
+  int counter;
+} Data;
+
 void radio_init() {
   controller = new RF24(CEpin, CSpin);
   controller->begin();
