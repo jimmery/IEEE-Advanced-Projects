@@ -10,7 +10,7 @@
 #define CEpin 14
 #define CSpin 15
 
-RF24 controller(23, 18);
+RF24 controller(14, 15);
 
 typedef struct {
   int counter;
@@ -21,7 +21,7 @@ Data d;
 void radio_init() {
   controller.begin();
   
-  controller.setPALevel(RF24_PA_LOW);
+  controller.setPALevel(RF24_PA_MIN);
   controller.setPayloadSize(32);
   controller.setChannel(7);
   controller.setCRCLength(RF24_CRC_16);
@@ -43,9 +43,19 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  //controller.printDetails();
-  
-  while(!controller.write(&d, sizeof(d)));
+
+  controller.startListening();
+
+  while (!controller.available());
+  controller.read(&d, sizeof(d));
+  d = (Data)d;
+  Serial.println(d.counter);
+
+  controller.stopListening();
+
   d.counter++;
-  delay(1000);
+  while(!controller.write(&d, sizeof(d)));
+  Serial.println(d.counter);
+  
+
 }
