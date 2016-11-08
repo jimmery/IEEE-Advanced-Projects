@@ -10,37 +10,42 @@
 #define CEpin 14
 #define CSpin 15
 
-RF24* controller;
+RF24 controller(23, 18);
 
 typedef struct {
   int counter;
 } Data;
 
+Data d; 
+
 void radio_init() {
-  controller = new RF24(CEpin, CSpin);
-  controller->begin();
+  controller.begin();
   
-  controller->setPALevel(RF24_PA_LOW);
-  controller->setPayloadSize(32);
-  controller->setChannel(7);
-  controller->setCRCLength(RF24_CRC_16);
-  controller->setDataRate(RF24_1MBPS);
-  controller->openReadingPipe(1, 0xCC);
-  controller->openWritingPipe(0xDC);
+  controller.setPALevel(RF24_PA_LOW);
+  controller.setPayloadSize(32);
+  controller.setChannel(7);
+  controller.setCRCLength(RF24_CRC_16);
+  controller.setDataRate(RF24_1MBPS);
+  controller.openReadingPipe(1, 0xDC);
+  controller.openWritingPipe(0xCC);
 }
 
 void setup() {
   radio_init();
   Serial.begin(9600);
-  printf_begin();
+  printf_begin(); 
+  d.counter = 0;
   //put your setup code here, to run once:
 //  controller.write_register(RF_SETUP, 0b00000110);
   delay(1000);
-  Serial.println("The delay has finished.");
+  //Serial.println("The delay has finished.");
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  controller->printDetails();
+  //controller.printDetails();
+  
+  while(!controller.write(&d, sizeof(d)));
+  d.counter++;
   delay(1000);
 }

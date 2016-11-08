@@ -22,19 +22,19 @@
 //  openWritingPipe(0xDC);
 //}
 
-RF24* controller;
+RF24 controller(CEpin, CSpin);
 
 void setup() {
-  controller = new RF24(CEpin, CSpin);
+  //controller = new RF24(CEpin, CSpin);
   Serial.begin(9600);
-  controller->begin();
+  controller.begin();
   printf_begin();
   //put your setup code here, to run once:
 //  controller.write_register(RF_SETUP, 0b00000110);
   delay(1000);
   Serial.println("The delay has finished.");
 //  controller.setPALevel(RF24_PA_HIGH);
-  controller.printDetails();
+  //controller.printDetails();
 
 
   //pinMode(led, OUTPUT);
@@ -44,19 +44,19 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  controller->setPALevel(RF24_PA_MIN);
-  controller->printDetails();
+  controller.setPALevel(RF24_PA_MIN);
+  controller.printDetails();
   delay(1000);
   
-  controller->setPALevel(RF24_PA_LOW);
-  controller->printDetails();
+  controller.setPALevel(RF24_PA_LOW);
+  controller.printDetails();
   delay(1000);
 
-  controller->setPALevel(RF24_PA_HIGH);
-  controller->printDetails();
+  controller.setPALevel(RF24_PA_HIGH);
+  controller.printDetails();
   delay(1000);
 
-  controller->setPALevel(RF24_PA_MAX);
-  controller->printDetails();
+  controller.setPALevel(RF24_PA_MAX);
+  controller.printDetails();
   delay(1000);
 }
