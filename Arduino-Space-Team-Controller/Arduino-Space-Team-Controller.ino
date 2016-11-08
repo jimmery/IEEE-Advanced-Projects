@@ -16,10 +16,10 @@ bool gbutt[3] = {false, false, false};
 #define BUFFER_SIZE 28  //we chose this such that it would be less than 32 with the extra one
 
 //buf is the buffer that we build on the arduino side
-char buf[BUFFER_SIZE];
+char buf[2 * BUFFER_SIZE];
 
 //correct is the buffer that we compare it to
-char correct[BUFFER_SIZE];
+char correct[2 * BUFFER_SIZE];
 
 RF24 controller(14, 15); //we declare a RF24 controller
 
@@ -103,7 +103,7 @@ void loop() {
   while(!controller.available()); //do nothing if there is nothing to read
   controller.read(&d, sizeof(d));
   d = (Data)d;
-  for (int i = 0; i < BUFFER_SIZE / 2; i++)
+  for (int i = 0; i < BUFFER_SIZE; i++)
     correct[i] = d.b[i];
   turn = d.turn;
 
@@ -112,8 +112,8 @@ void loop() {
   while(!controller.available());
   controller.read(&d, sizeof(d));
   d = (Data)d;
-  for (int i = 0; i < BUFFER_SIZE / 2; i++)
-    correct[i + BUFFER_SIZE / 2] = d.b[i];
+  for (int i = 0; i < BUFFER_SIZE; i++)
+    correct[i + BUFFER_SIZE] = d.b[i];
   if ( turn != d.turn )
     Serial.println("something messed up with synchro.");
   controller.stopListening();
