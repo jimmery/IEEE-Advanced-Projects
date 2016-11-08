@@ -13,7 +13,7 @@ bool ybutt[3] = {false, false, false};
 bool gbutt[3] = {false, false, false};
 
 // maximum limit for buffers. 
-#define BUFFER_SIZE 56
+#define BUFFER_SIZE 28  //we chose this such that it would be less than 32 with the extra one
 
 //buf is the buffer that we build on the arduino side
 char buf[BUFFER_SIZE];
@@ -21,7 +21,7 @@ char buf[BUFFER_SIZE];
 //correct is the buffer that we compare it to
 char correct[BUFFER_SIZE];
 
-RF24 controller(14, 15);
+RF24 controller(14, 15); //we declare a RF24 controller
 
 //this is the current number of buttons saved on the arduino
 uint8_t cur_buf_len = 0;
@@ -32,13 +32,14 @@ uint8_t turn = 0;
 //turn + 1 is going to be the wanted length of the buffer
 
 typedef struct {
-  uint8_t b[28];
-  uint8_t turn;
+  uint8_t b[BUFFER_SIZE];
+  uint8_t turn=0;
 } Data;
 
 Data d;
 
-typedef struct {
+//this is the struct that we send back to acknowledge if it is correct or not
+typedef struct { 
   uint8_t turn_correct;
 } Ack;
 
@@ -99,7 +100,7 @@ int compare()
 void loop() {
   // update the button arrays with the current button status.
   controller.startListening();
-  while(!controller.available());
+  while(!controller.available()); //do nothing if there is nothing to read
   controller.read(&d, sizeof(d));
   d = (Data)d;
   for (int i = 0; i < BUFFER_SIZE / 2; i++)
