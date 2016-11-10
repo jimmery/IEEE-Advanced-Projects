@@ -62,15 +62,16 @@ void setup() {
   radio_init();
   printf_begin();
 
+  //buttons are inputs
   pinMode(RED_BUT, INPUT); 
   pinMode(YEL_BUT, INPUT);
   pinMode(GRN_BUT, INPUT);
 
   Serial.begin(9600);
-  controller.printDetails();
+  controller.printDetails(); //prints details before starting
 }
 
-void updatevalues(int button, bool arr[3],  char letter){
+void updatevalues(int button, bool arr[3],  char letter){  //check for button presses
   //constantly keeps the last three read button values
   arr[0] = arr[1];
   arr[1] = arr[2];
@@ -103,28 +104,30 @@ void loop() {
   // update the button arrays with the current button status.
   controller.startListening();
   while(!controller.available()); //do nothing if there is nothing to read
-  controller.read(&d, sizeof(d));
+  controller.read(&d, sizeof(d));  //reads the first half of data into variable d
   d = (Data)d;
   for (int i = 0; i < BUFFER_SIZE; i++)
-    correct[i] = d.b[i];
+    correct[i] = d.b[i]; //writes this into the correct array
   turn = d.turn;
 
+Serial.println("First half of message received.");
 
-  while(!controller.available());
-  controller.read(&d, sizeof(d));
+  while(!controller.available()); //do nothing if there is nothing to read
+  controller.read(&d, sizeof(d)); //reads the second half of data into variable d
   d = (Data)d;
   for (int i = 0; i < BUFFER_SIZE; i++)
-    correct[i + BUFFER_SIZE] = d.b[i];
+    correct[i + BUFFER_SIZE] = d.b[i]; //writes this into the second half of the array
   if ( turn != d.turn )
     Serial.println("something messed up with synchro.");
+
   controller.stopListening();
 
-  Serial.println("Message received.");
+  Serial.println("Entire message received.");
 
   cur_buf_len = 0; // reset the buffer just after receiving. 
 
-  while (cur_buf_len < turn) {
-    updatevalues(RED_BUT, rbutt, 'R');
+  while (cur_buf_len < turn) { //check for button presses
+    updatevalues(RED_BUT, rbutt, 'R'); 
     updatevalues(YEL_BUT, ybutt, 'Y');
     updatevalues(GRN_BUT, gbutt, 'G');
   }
