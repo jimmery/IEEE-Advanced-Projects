@@ -82,7 +82,9 @@ void updatevalues(int button, bool arr[3],  char letter){
     buf[cur_buf_len] = letter; //adds the letter to the array
     cur_buf_len++; //re-sets end of buffer. 
     Serial.write(letter);
+    Serial.println();
   }
+
 }
 
 // returns 0 if the buttons pressed differ from the received buf.
