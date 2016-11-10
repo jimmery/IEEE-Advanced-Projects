@@ -109,7 +109,6 @@ void loop() {
     correct[i] = d.b[i];
   turn = d.turn;
 
-  Serial.println("message 1 received.");
 
   while(!controller.available());
   controller.read(&d, sizeof(d));
@@ -120,7 +119,7 @@ void loop() {
     Serial.println("something messed up with synchro.");
   controller.stopListening();
 
-  Serial.println("message received.");
+  Serial.println("Message received.");
 
   cur_buf_len = 0; // reset the buffer just after receiving. 
 
