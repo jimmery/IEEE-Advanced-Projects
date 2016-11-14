@@ -92,7 +92,7 @@ void updatevalues(int button, bool arr[3],  char letter){  //check for button pr
 // else returns 1. 
 int compare()
 {
-  for (int i=0; i <= turn; i++)
+  for (int i=0; i < turn; i++)
   {
     if (correct[i] != buf[i])
       return 0;
