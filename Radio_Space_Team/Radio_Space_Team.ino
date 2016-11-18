@@ -5,24 +5,24 @@
 #define led 13
 
 // these are for the teensy. 
-//#define CEpin 23
-//#define CSpin 21
+#define CEpin 23
+#define CSpin 21
 
 // these are for the arduino. 
-#define CEpin 14
-#define CSpin 15
+//#define CEpin 14
+//#define CSpin 15
 
+typedef struct
 
-//
-//void radio_init() {
-//  setPALevel(RF24_PA_LOW);
-//  setPayloadSize(32);
-//  setChannel(7); //team number
-//  setCRCLength(RF24_CRC_16);
-//  setDataRate(RF24_1MPS);
-//  openReadingPipe(1, 0xDC); //Writing pipe of the Teensy
-//  openWritingPipe(0xCC); //Reading pipe of the Teensy
-//}
+void radio_init() {
+  controller.setPALevel(RF24_PA_LOW);
+  controller.setPayloadSize(32);
+  controller.setChannel(7);
+  controller.setCRCLength(RF24_CRC_16);
+  controller.setDataRate(RF24_1MBPS);
+  controller.openReadingPipe(1, 0xCC);
+  controller.openWritingPipe(0xDC);
+}
 
 RF24 controller(CEpin, CSpin);
   
@@ -36,19 +36,21 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  controller.setPALevel(RF24_PA_MIN);
-  controller.printDetails();
-  delay(1000);
-  
-  controller.setPALevel(RF24_PA_LOW);
-  controller.printDetails();
-  delay(1000);
-
-  controller.setPALevel(RF24_PA_HIGH);
-  controller.printDetails();
-  delay(1000);
-
-  controller.setPALevel(RF24_PA_MAX);
-  controller.printDetails();
-  delay(1000);
+//  controller.setPALevel(RF24_PA_MIN);
+//  controller.printDetails();
+//  delay(1000);
+//  
+//  controller.setPALevel(RF24_PA_LOW);
+//  controller.printDetails();
+//  delay(1000);
+//
+//  controller.setPALevel(RF24_PA_HIGH);
+//  controller.printDetails();
+//  delay(1000);
+//
+//  controller.setPALevel(RF24_PA_MAX);
+//  controller.printDetails();
+//  delay(1000);
+controller.write(
+controller.startListening();
 }
