@@ -13,7 +13,7 @@
 RF24 controller(14, 15);
 
 typedef struct {
-  int counter;
+  int counter; //use universal data types right now its 2 bytes out of 32 bytes
 } Data;
 
 Data d; 

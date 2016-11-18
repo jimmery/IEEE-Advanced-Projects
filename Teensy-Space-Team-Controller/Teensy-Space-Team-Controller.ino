@@ -109,7 +109,7 @@ void loop()
     writeLED(buf[i], LOW);
     delay(250);
   }
-data.turn = turn;
+  data.turn = turn;
 
   for ( int i = 0; i < 28; i++ )
     data.buf[i] = buf[i];
@@ -121,47 +121,31 @@ data.turn = turn;
     Serial.println("sent");
   
   controller.startListening();
-  while ( true )
-  {
-    if ( controller.available() )
-    {
-      // wait for presses. 
-      controller.read(&ch, sizeof(ch));
-      uint8_t rec_val = ch.correct;
-
-      switch(rec_val) 
-      {
-        case 0: // game over. 
-          turn = 1;
-          digitalWrite(RED_LED, HIGH);
-          delay(2500);
-          digitalWrite(RED_LED, LOW);
-          delay(250);
-          return;
-        case 1: // game continue. 
-          turn++;
-          digitalWrite(GRN_LED, HIGH);
-          delay(2500);
-          digitalWrite(GRN_LED, LOW);
-          delay(250);
-          return;
-//        case 'R':
-//          r = !r;
-//          writeLED('R', r);
-//          break;
-//        case 'Y':
-//          y = !y;
-//          writeLED('Y', y);
-//          break;
-//        case 'G':
-//          g = !g;
-//          writeLED('G', g);
-//          break;
-        default: 
-          // IDK. 
-          break;
-      }
-    }
-  }
+  while ( !controller.available() );// wait for presses. 
+  controller.read(&ch, sizeof(ch));
+  uint8_t rec_val = ch.correct;
   controller.stopListening();
+
+  switch(rec_val) 
+  {
+    case 0: // game over. 
+      turn = 1;
+      digitalWrite(RED_LED, HIGH);
+      delay(2500);
+      digitalWrite(RED_LED, LOW);
+      delay(250);
+      Serial.println("game over");
+      break;
+    case 1: // game continue. 
+      turn++;
+      digitalWrite(GRN_LED, HIGH);
+      delay(2500);
+      digitalWrite(GRN_LED, LOW);
+      delay(250);
+      Serial.println("successfully received correct code.");
+      break;
+    default: 
+      // IDK. 
+      break;
+  }
 }
