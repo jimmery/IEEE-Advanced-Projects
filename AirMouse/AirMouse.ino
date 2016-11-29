@@ -1,4 +1,4 @@
-#include <printf.h>
+//#include <printf.h>
 #include <RF24.h>
 #include <nrf24L01.h>
 
@@ -54,7 +54,7 @@ uint8_t updatevalues(int button, bool arr[3]){  //check for button presses
 void setup() {
   // put your setup code here, to run once:
   radio_init();
-  printf_begin();
+//printf_begin();
   Serial.begin(9600);
   
   pinMode(BATT_CHECK, INPUT);
