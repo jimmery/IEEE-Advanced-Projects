@@ -33,15 +33,19 @@ void radio_init() {
   rad.openWritingPipe(0xCC);
 }
 
-bool updatevalues(int button, bool arr[3]){  //check for button presses
+uint8_t updatevalues(int button, bool arr[3]){  //check for button presses
   //constantly keeps the last three read button values
   arr[0] = arr[1];
   arr[1] = arr[2];
   arr[2] = (bool) digitalRead(button);
   
   //basically if it detects that it was low, and then becomes high
-  //transmission is successfull
+  // then we say a button has been pressed. 
   if ( !arr[0] && arr[1] && arr[2] ) {
+    return 1;
+  }
+  // on the other hand, we also note when the button gets unpressed.
+  if ( arr[0] && !arr[1] && !arr[2] ) {
     return 1;
   }
   return 0;
@@ -64,14 +68,8 @@ void loop() {
   d.voltage = analogRead(BATT_CHECK);
   //val * 3.31 / 1023 * (5500 + 1500) / 5500;
 
-  //Serial.println(digitalRead(l_click));
-
   d.l_clicked = updatevalues(l_click, lbutt);
-//  if ( d.l_clicked )
-//    Serial.println("left");
   d.r_clicked = updatevalues(r_click, rbutt);
-//  if ( d.r_clicked )
-//    Serial.println("right");
   
   while(!rad.write(&d, sizeof(d)));
 }
