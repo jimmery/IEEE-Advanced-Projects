@@ -1,4 +1,4 @@
-//#include <printf.h>
+#include <printf.h>
 #include <RF24.h>
 #include <nrf24L01.h>
 #include <Wire.h>
@@ -151,10 +151,12 @@ uint8_t updatevalues(int button, bool arr[3]){  //check for button presses
   //basically if it detects that it was low, and then becomes high
   // then we say a button has been pressed. 
   if ( !arr[0] && arr[1] && arr[2] ) {
+    Serial.println("clicked");
     return 1;
   }
   // on the other hand, we also note when the button gets unpressed.
   if ( arr[0] && !arr[1] && !arr[2] ) {
+    Serial.println("unclicked");
     return 1;
   }
   return 0;
@@ -163,12 +165,14 @@ uint8_t updatevalues(int button, bool arr[3]){  //check for button presses
 void setup() {
   // put your setup code here, to run once:
   radio_init();
-//  printf_begin();
+  printf_begin();
   Serial.begin(9600);
   
   pinMode(BATT_CHECK, INPUT);
   pinMode(l_click, INPUT);
   pinMode(r_click, INPUT);
+
+  Serial.println("Hello World.");
 }
 
 void loop() {
