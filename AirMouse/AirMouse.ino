@@ -43,7 +43,7 @@ typedef enum : uint8_t {
   GYRO_PREC_500,
   GYRO_PREC_1000,
   GYRO_PREC_2000,
-} gyro_precision_e;
+} gyro_precision_e; //declares a type gyro_precision_e that consists of 4 8bit unsigned integers
 
 typedef enum : uint8_t
 {
@@ -51,7 +51,7 @@ typedef enum : uint8_t
   ACCEL_PREC_4,
   ACCEL_PREC_8,
   ACCEL_PREC_16
-} accel_precision_e;
+} accel_precision_e; //declares accel_precision_e
 
 void setSleep(bool enable){
   Wire.beginTransmission(MPU_addr);
