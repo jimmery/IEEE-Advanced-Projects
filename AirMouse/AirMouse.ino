@@ -14,9 +14,9 @@ bool rbutt[3] = {false, false, false};
 RF24 rad(CE_Pin, CS_Pin);
 
 typedef struct {
-  uint16_t voltage;
-  uint8_t l_clicked;
-  uint8_t r_clicked; 
+  uint16_t voltage; //2 bytes
+  uint8_t l_clicked; //1 byte
+  uint8_t r_clicked; //1 byte
 } Data; // 4 bytes. 
 
 Data d;
