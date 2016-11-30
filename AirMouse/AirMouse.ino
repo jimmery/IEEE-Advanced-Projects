@@ -167,7 +167,7 @@ void setup() {
   radio_init();
   printf_begin();
   Serial.begin(9600);
-  
+  setSleep(false);
   pinMode(BATT_CHECK, INPUT);
   pinMode(l_click, INPUT);
   pinMode(r_click, INPUT);
