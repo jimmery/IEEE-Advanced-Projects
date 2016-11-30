@@ -13,20 +13,20 @@
 //  uint8_t buf[28];
 //  uint8_t turn = 1;
 //  }Data;
-uint16_t ax_zero = 0;
-uint16_t ay_zero = 0;
-uint16_t az_zero = 0;
+int16_t ax_zero = 0;
+int16_t ay_zero = 0;
+int16_t az_zero = 0;
   
 typedef struct{
   uint16_t battery_lvl;
   uint8_t l_click = 0;
   uint8_t r_click = 0;
-  uint16_t ax = 0;
-  uint16_t ay = 0;
-  uint16_t az = 0;
-  uint16_t gx = 0;
-  uint16_t gy = 0;
-  uint16_t gz = 0;
+  int16_t ax = 0;
+  int16_t ay = 0;
+  int16_t az = 0;
+  int16_t gx = 0;
+  int16_t gy = 0;
+  int16_t gz = 0;
   }Check; //6 bytes
   
 //Data data;
