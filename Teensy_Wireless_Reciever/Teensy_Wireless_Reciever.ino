@@ -5,6 +5,8 @@
 #define RED_LED 0
 #define YEL_LED 1
 #define GRN_LED 2
+#define SCALE 0.0015
+#define THRESH 1000
 
 // maximum buffer size, for the purpose of 
 #define BUFFER_SIZE 56
@@ -13,20 +15,22 @@
 //  uint8_t buf[28];
 //  uint8_t turn = 1;
 //  }Data;
-uint16_t ax_zero = 0;
-uint16_t ay_zero = 0;
-uint16_t az_zero = 0;
-  
+bool l_click = false;
+bool r_click = false;
+int16_t ax_zero = 1700;
+int16_t ay_zero = 950;
+int16_t az_zero = -17300;
+
 typedef struct{
   uint16_t battery_lvl;
   uint8_t l_click = 0;
   uint8_t r_click = 0;
-  uint16_t ax = 0;
-  uint16_t ay = 0;
-  uint16_t az = 0;
-  uint16_t gx = 0;
-  uint16_t gy = 0;
-  uint16_t gz = 0;
+  int16_t ax = 0;
+  int16_t ay = 0;
+  int16_t az = 0;
+  int16_t gx = 0;
+  int16_t gy = 0;
+  int16_t gz = 0;
   }Check; //6 bytes
   
 //Data data;
@@ -66,12 +70,6 @@ void setup() {
   digitalWrite(YEL_LED, LOW);
   digitalWrite(GRN_LED, LOW);
 
-  if (controller.available()){
-    controller.read(&ch, sizeof(ch));
-  }
-  uint8_t ax_zero = ch.ax;
-  uint8_t ay_zero = ch.ay;
-  uint8_t az_zero = ch.az;
 }
 
 void loop() 
@@ -83,13 +81,33 @@ void loop()
     {
       // wait for presses. 
       controller.read(&ch, sizeof(ch));
+      ch.ay = -ch.ay;
+      ch.ax = -ch.ax;
       float rec_val = ch.battery_lvl*3.31/1023*(5500+1500)/5500;
       printf("%d, %d, %d\n", ch.ax, ch.ay, ch.az);
-      if (ch.l_click == 1)
+      if(abs(ch.ax - ax_zero) > THRESH){
+        if(abs(ch.ay - ay_zero) > THRESH){
+          Mouse.move(ch.ax*SCALE, ch.ay*SCALE);
+        }
+        else{
+          Mouse.move(ch.ax*SCALE, 0);
+        }
+      }
+      if(abs(ch.ay - ay_zero) > THRESH){
+        Mouse.move(0, ch.ay*SCALE);
+      }
+      
+      if (ch.l_click == 1){
+        l_click = !l_click;
+        Mouse.set_buttons(l_click, 0, r_click);
         Serial.println("left click");
-      if (ch.r_click == 1)
+      } 
+      if (ch.r_click == 1){
+        r_click = !r_click;
+        Mouse.set_buttons(l_click, 0, r_click);
         Serial.println("right click");
-        
+      }
+ 
       if (rec_val< 3.7)
       {
         digitalWrite(GRN_LED, LOW);
