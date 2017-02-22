@@ -5781,9 +5781,9 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="50.8" y="172.72" size="1.778" layer="95" rot="R270" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U1" gate="U$1" pin="PC3(ADC3)"/>
-<wire x1="35.56" y1="129.54" x2="40.64" y2="129.54" width="0.1524" layer="91"/>
-<label x="40.64" y="129.54" size="1.778" layer="95" xref="yes"/>
+<pinref part="U1" gate="U$1" pin="PC0(ADC0)"/>
+<wire x1="35.56" y1="137.16" x2="40.64" y2="137.16" width="0.1524" layer="91"/>
+<label x="40.64" y="137.16" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="DTR" class="0">
