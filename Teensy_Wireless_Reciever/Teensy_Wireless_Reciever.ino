@@ -15,7 +15,6 @@
 //  uint8_t buf[28];
 //  uint8_t turn = 1;
 //  }Data;
-
 bool l_click = false;
 bool r_click = false;
 int16_t ax_zero = 1700;
@@ -84,6 +83,7 @@ void loop()
       controller.read(&ch, sizeof(ch));
       ch.ay = -ch.ay;
       ch.ax = -ch.ax;
+      Serial.print(ch.ax);
       float rec_val = ch.battery_lvl*3.31/1023*(5500+1500)/5500;
       printf("%d, %d, %d\n", ch.ax, ch.ay, ch.az);
       if(abs(ch.ax - ax_zero) > THRESH){
